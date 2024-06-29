@@ -7,3 +7,4 @@ transformers
 groq
 fuzzywuzzy
 paddleocr    
+paddlepaddle
