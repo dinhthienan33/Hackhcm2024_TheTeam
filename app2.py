@@ -44,7 +44,7 @@ def analyze_image_information(image_description, ocr_results):
 
     client = Groq(
         # This is the default and can be omitted
-        api_key="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",
+        api_key="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",
     )
 
 
