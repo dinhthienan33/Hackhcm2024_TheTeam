@@ -7,5 +7,6 @@ transformers
 groq
 fuzzywuzzy
 paddleocr    
-paddlepaddle
+paddlepaddle-gpu
 opencv-python
+cv2
