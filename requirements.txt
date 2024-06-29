@@ -1,0 +1,8 @@
+paddlepaddle-gpu
+paddleocr
+groq
+streamlit
+opencv-python
+numpy
+PIL
+transformers 
