@@ -1,8 +1,8 @@
-paddlepaddle-gpu
+paddlepaddle
 paddleocr
 groq
 streamlit
 opencv-python
 numpy
-PIL
+Pillow
 transformers 
