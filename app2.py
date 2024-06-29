@@ -6,6 +6,7 @@ import requests
 import json
 from transformers import pipeline
 from groq import Groq
+from fuzzywuzzy import process
 
 # Initialize the OCR reader
 
@@ -43,12 +44,13 @@ def analyze_image_information(image_description, ocr_results):
 
     Criteria:
     1. Brand Logos: Identify any brand logos mentioned in the description or OCR results.
-    2. Products: Mention any products such as beer kegs and bottles.
+    2. Products: Mention any products such as beer kegs and bottles in the description or OCR results.
     3. Customers: Describe the number of customers, their activities, and emotions.
     4. Promotional Materials: Identify any posters, banners, and billboards.
     5. Setup Context: Determine the scene context (e.g., bar, restaurant, grocery store, or supermarket).
 
     Insights:
+    Summarize all of criteria and give context
     """
 
     # Replace with your Groq API key
@@ -95,7 +97,7 @@ with col2:
         # # Perform OCR
         # st.subheader("OCR Texts")
         ocr_texts = perform_ocr(image)
-        ocr_texts=correct_texts(ocr_texts)
+        ocr_texts=correct_text(ocr_texts)
         # for text in ocr_texts:
         #     st.write(text)
 
