@@ -27,13 +27,9 @@ def perform_ocr(image):
     ocr_texts = [line[1] for line in result]
     return ocr_texts
 def perform_object(image):
-    processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
-    model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
-    inputs = processor(images=image, return_tensors="pt")
-    outputs = model(**inputs)
-    target_sizes = torch.tensor([image.size[::-1]])
-    results = processor.post_process_object_detection(outputs, target_sizes=target_sizes, threshold=0.9)[0]
-    return results["labels"]
+    pipe = pipeline("object-detection", model="facebook/detr-resnet-50") 
+    result=pipe(image)[0]['labels']
+    return result
 # def correct_text(ocr_texts):
 #     corrected_text = []
 #     known_terms = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow','Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
