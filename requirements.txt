@@ -8,3 +8,4 @@ groq
 fuzzywuzzy
 paddleocr    
 paddlepaddle
+opencv-python
