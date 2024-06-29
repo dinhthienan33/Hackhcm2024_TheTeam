@@ -40,8 +40,10 @@ def analyze_image_information(image_description, ocr_results):
     OCR Results:
     {ocr_results}
     known_terms = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow','Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
+    Imagine you are a member of the Digital & Technology (D&T) team at HEINEKEN Vietnam. Develop an image analysis tool that can automatically detect the following elements:
+    Just focus on result of OCR similar to know_terms
     Criteria:
-    1. Brand Logos: Identify any brand logos mentioned in the description or OCR results that similar to known_terms. 
+    1. Brand Logos: Identify any brand logos mentioned in OCR results.
     2. Products: Mention any products such as beer kegs and bottles in the description or OCR results  that similar to known_terms
     3. Customers: Describe the number of customers, their activities, and emotions.
     4. Promotional Materials: Identify any posters, banners, and billboards.
