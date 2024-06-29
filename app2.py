@@ -73,9 +73,9 @@ def analyze_image_information(image_description, ocr_results):
 # Streamlit app
 st.set_page_config(layout="wide")
 st.title("Image Analysis App")
-logo_path = "img\logo.png"  # Change this to the path of your logo file or a URL
-logo = Image.open(logo_path)
-st.image(logo, width=100)
+# logo_path = "img\logo.png"  # Change this to the path of your logo file or a URL
+# logo = Image.open(logo_path)
+# st.image(logo, width=100)
 st.text("The Team")     
 st.markdown("Your Name") 
 # Create three columns with custom widths
