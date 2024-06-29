@@ -8,7 +8,6 @@ from transformers import pipeline
 from groq import Groq
 
 # Initialize the OCR reader
-ocr_reader = easyocr.Reader(["en"])
 
 def get_image_caption(image):
     # Use a pre-trained image captioning model from Salesforce
@@ -16,6 +15,7 @@ def get_image_caption(image):
     return caption_pipeline(image)[0]['generated_text']
 
 def perform_ocr(image):
+    ocr_reader = easyocr.Reader(["en"])
     result = ocr_reader.readtext(np.array(image))
     ocr_texts = [line[1] for line in result]
     return ocr_texts
