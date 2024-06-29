@@ -26,10 +26,8 @@ def correct_text(ocr_texts):
     known_terms = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow','Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
     for text in ocr_texts:
         match, score = process.extractOne(text, known_terms)
-        if score > 50:
+        if score > 80:
             corrected_text.append(match)
-        else:
-            corrected_text.append(text)
     return corrected_text
 
 def analyze_image_information(image_description, ocr_results):
