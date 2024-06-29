@@ -127,5 +127,6 @@ with col3:
     if uploaded_file is not None:
         # Analyze image information
         ocr_results = ' '.join(ocr_texts)
+        object_names =' '.join(object_names)
         analysis = analyze_image_information(image_description, ocr_results,object_names)
         st.write(analysis)
