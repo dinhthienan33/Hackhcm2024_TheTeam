@@ -1,7 +1,6 @@
-paddlepaddle
-paddleocr
-groq
 streamlit
+easyocr
 numpy
 Pillow
-transformers 
+requests
+transformers
