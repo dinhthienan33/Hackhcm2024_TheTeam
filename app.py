@@ -1,9 +1,9 @@
 import streamlit as st
+import easyocr
 import numpy as np
 from PIL import Image
 from transformers import pipeline
 from groq import Groq
-import easyocr
 from fuzzywuzzy import process
 # Initialize OCR reader
 

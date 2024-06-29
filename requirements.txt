@@ -6,6 +6,6 @@ requests
 transformers
 groq
 fuzzywuzzy
-paddleocr    
-paddlepaddle-gpu
+# paddleocr    
+# paddlepaddle-gpu
 opencv-python
