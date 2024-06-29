@@ -1,4 +1,6 @@
 import streamlit as st
+import torch
+from transformers import DetrImageProcessor, DetrForObjectDetection
 import easyocr
 import numpy as np
 from PIL import Image
@@ -11,16 +13,27 @@ from groq import Groq
 # Initialize the OCR reader
 
 def get_image_caption(image):
+    result=[]
     # Use a pre-trained image captioning model from Salesforce
-    caption_pipeline = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
-    return caption_pipeline(image)[0]['generated_text']
+    caption_pipeline_1 = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
+    result.append(caption_pipeline_1(image)[0]['generated_text'])
+    caption_pipeline_2 = pipeline("image-to-text", model="nlpconnect/vit-gpt2-image-captioning") 
+    result.append(caption_pipeline_2(image)[0]['generated_text'])
+    return result
 
 def perform_ocr(image):
     ocr_reader = easyocr.Reader(["en"])
     result = ocr_reader.readtext(np.array(image))
     ocr_texts = [line[1] for line in result]
     return ocr_texts
-
+def perform_object(image):
+    processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
+    model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
+    inputs = processor(images=image, return_tensors="pt")
+    outputs = model(**inputs)
+    target_sizes = torch.tensor([image.size[::-1]])
+    results = processor.post_process_object_detection(outputs, target_sizes=target_sizes, threshold=0.9)[0]
+    return results["labels"]
 # def correct_text(ocr_texts):
 #     corrected_text = []
 #     known_terms = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow','Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
@@ -30,21 +43,27 @@ def perform_ocr(image):
 #             corrected_text.append(match)
 #     return corrected_text
 
-def analyze_image_information(image_description, ocr_results):
+def analyze_image_information(image_description, ocr_results,objects_names):
     prompt = f"""
     Analyze the following image information and provide insights based on the criteria given below:
 
     Image Description:
     {image_description}
 
-    OCR Results:
+    Brands names:
     {ocr_results}
-    known_terms = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow','Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
+    
+    Objects:
+    {objects_names}
+    
+    brands = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow']
+    objects=['Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
     Imagine you are a member of the Digital & Technology (D&T) team at HEINEKEN Vietnam. Develop an image analysis tool that can automatically detect the following elements:
-    Just focus on result of OCR similar to know_terms
+    Just focus on result of OCR that similar to brands
+    Just focus on result of OCR that similar to objects
     Criteria:
     1. Brand Logos: Identify any brand logos mentioned in OCR results.
-    2. Products: Mention any products such as beer kegs and bottles in the description or OCR results  that similar to known_terms
+    2. Products: Mention any products such as beer kegs and bottles in the description or result of Objects
     3. Customers: Describe the number of customers, their activities, and emotions.
     4. Promotional Materials: Identify any posters, banners, and billboards.
     5. Setup Context: Determine the scene context (e.g., bar, restaurant, grocery store, or supermarket).
@@ -101,6 +120,7 @@ with col2:
         # # Perform OCR
         # st.subheader("OCR Texts")
         ocr_texts = perform_ocr(image)
+        object_names = perform_object(image)
         #ocr_texts=correct_text(ocr_texts)
         # for text in ocr_texts:
         #     st.write(text)
@@ -111,5 +131,5 @@ with col3:
     if uploaded_file is not None:
         # Analyze image information
         ocr_results = ' '.join(ocr_texts)
-        analysis = analyze_image_information(image_description, ocr_results)
+        analysis = analyze_image_information(image_description, ocr_results,object_names)
         st.write(analysis)
