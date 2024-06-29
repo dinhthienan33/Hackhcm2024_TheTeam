@@ -3,13 +3,13 @@ import numpy as np
 from PIL import Image
 from transformers import pipeline
 from groq import Groq
-from paddleocr import PaddleOCR
+import easyocr
 from fuzzywuzzy import process
 # Initialize OCR reader
 
 # Perform OCR on image
 def perform_ocr(image):
-    ocr_reader = PaddleOCR(use_angle_cls=True, lang='en')
+    ocr_reader = easyocr.Reader(["en"])
     result = ocr_reader.ocr(np.array(image))
     ocr_texts = [line[1][0] for line in result]
     return ocr_texts
