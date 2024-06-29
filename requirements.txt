@@ -5,3 +5,5 @@ Pillow
 requests
 transformers
 groq
+fuzzywuzzy
+paddleocr    
