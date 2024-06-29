@@ -5,27 +5,25 @@ from transformers import pipeline
 from groq import Groq
 from paddleocr import PaddleOCR
 from fuzzywuzzy import process
-
 # Initialize OCR reader
-ocr_reader = PaddleOCR(use_angle_cls=True, lang='en')
 
 # Perform OCR on image
 def perform_ocr(image):
+    ocr_reader = PaddleOCR(use_angle_cls=True, lang='en')
     result = ocr_reader.ocr(np.array(image))
     ocr_texts = [line[1][0] for line in result]
     return ocr_texts
 
-# # Correct OCR text using fuzzy matching
-# def correct_text(ocr_texts):
-#     corrected_text = []
-#     known_terms = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow','Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
-#     for text in ocr_texts:
-#         match, score = process.extractOne(text, known_terms)
-#         if score > 50:
-#             corrected_text.append(match)
-#         else:
-#             corrected_text.append(text)
-#     return corrected_text
+def correct_text(ocr_texts):
+    corrected_text = []
+    known_terms = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow','Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
+    for text in ocr_texts:
+        match, score = process.extractOne(text, known_terms)
+        if score > 50:
+            corrected_text.append(match)
+        else:
+            corrected_text.append(text)
+    return corrected_text
 
 # Get image description using image captioning model
 def get_image_caption(image):
@@ -55,7 +53,7 @@ def analyze_image_information(image_description, ocr_results):
     """
 
     # Replace with your Groq API key
-    client = Groq(api_key="YOUR_GROQ_API_KEY_HERE")
+    client = Groq(api_key="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")
 
     data = {
         "model": "llama3-8b-8192",
@@ -88,6 +86,7 @@ with col2:
         st.write(image_description)
 
         ocr_texts = perform_ocr(image)
+        ocr_texts = correct_text(ocr_texts)
         st.subheader("OCR Texts")
         for text in ocr_texts:
             st.write(text)
