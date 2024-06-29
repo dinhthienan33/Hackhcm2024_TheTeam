@@ -76,8 +76,8 @@ st.title("Image Analysis App")
 # logo_path = "img\logo.png"  # Change this to the path of your logo file or a URL
 # logo = Image.open(logo_path)
 # st.image(logo, width=100)
-st.text("The Team")     
-st.markdown("Your Name") 
+# st.text("The Team")     
+# st.markdown("Your Name") 
 # Create three columns with custom widths
 col1, col2, col3 = st.columns([1, 2, 2])
 
