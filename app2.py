@@ -20,6 +20,17 @@ def perform_ocr(image):
     ocr_texts = [line[1] for line in result]
     return ocr_texts
 
+def correct_text(ocr_texts):
+    corrected_text = []
+    known_terms = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow','Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
+    for text in ocr_texts:
+        match, score = process.extractOne(text, known_terms)
+        if score > 50:
+            corrected_text.append(match)
+        else:
+            corrected_text.append(text)
+    return corrected_text
+
 def analyze_image_information(image_description, ocr_results):
     prompt = f"""
     Analyze the following image information and provide insights based on the criteria given below:
@@ -84,6 +95,7 @@ with col2:
         # # Perform OCR
         # st.subheader("OCR Texts")
         ocr_texts = perform_ocr(image)
+        ocr_texts=correct_texts(ocr_texts)
         # for text in ocr_texts:
         #     st.write(text)
 
