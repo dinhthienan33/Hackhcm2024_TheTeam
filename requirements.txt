@@ -4,3 +4,4 @@ numpy
 Pillow
 requests
 transformers
+groq
