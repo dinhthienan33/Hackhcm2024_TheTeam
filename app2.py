@@ -1,6 +1,4 @@
 import streamlit as st
-import torch
-from transformers import DetrImageProcessor, DetrForObjectDetection
 import easyocr
 import numpy as np
 from PIL import Image
