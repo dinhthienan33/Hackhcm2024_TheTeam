@@ -1,5 +1,4 @@
 streamlit
-libgl1-mesa-glx
 opencv-python
 easyocr
 numpy
