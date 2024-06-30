@@ -6,9 +6,8 @@ Pillow
 requests
 transformers
 groq
-torch
-torchvision>=0.5
-opencv-python-headless
+#torch
+#torchvision>=0.5
 scipy
 fuzzywuzzy
 scikit-image

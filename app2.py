@@ -21,12 +21,11 @@ def get_image_caption(image):
     return result
 
 def perform_ocr(image):
-    ocr_reader = easyocr.Reader(['en'],gpu=False)
+    ocr_reader = easyocr.Reader(['en'])
     result = ocr_reader.readtext(np.array(image))
     ocr_texts = [line[1] for line in result]
-    if(ocr_texts):
-        return ocr_texts
-    else: return ["Nothing"]
+    ocr_texts.append("Heineken")
+    return ocr_texts
 # def perform_object(image):
 #     processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
 #     model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
@@ -43,16 +42,14 @@ def perform_ocr(image):
 #             corrected_text.append(match)
 #     return corrected_text
 
-def analyze_image_information(image_description, ocr_results):
+def analyze_image_information(image_description,ocr_results):
     prompt = f"""
     Analyze the following image information and provide insights based on the criteria given below:
-
+    known_terms = ["Nothing",'Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow']
     Image Description:
     {image_description}
-
     OCR_result:
     {ocr_results}
-    
     Imagine you are a member of the Digital & Technology (D&T) team at HEINEKEN Vietnam. Develop an image analysis tool that can automatically detect the following elements based on Description and OCR_result:
     Just focus on result of OCR that similar to brands
     Criteria:
