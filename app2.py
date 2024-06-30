@@ -7,24 +7,26 @@ import requests
 import json
 from transformers import pipeline
 from groq import Groq
-from fuzzywuzzy import process
+#from fuzzywuzzy import process
 
 # Initialize the OCR reader
 
 def get_image_caption(image):
     result=[]
     # Use a pre-trained image captioning model from Salesforce
-    caption_pipeline_1 = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base", max_new_tokens=50)
+    caption_pipeline_1 = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
     result.append(caption_pipeline_1(image)[0]['generated_text'])
-    caption_pipeline_2 = pipeline("image-to-text", model="nlpconnect/vit-gpt2-image-captioning", max_new_tokens=50) 
+    caption_pipeline_2 = pipeline("image-to-text", model="nlpconnect/vit-gpt2-image-captioning") 
     result.append(caption_pipeline_2(image)[0]['generated_text'])
     return result
 
 def perform_ocr(image):
-    ocr_reader = easyocr.Reader(['vi','en'])
+    ocr_reader = easyocr.Reader(['en'],gpu=False)
     result = ocr_reader.readtext(np.array(image))
     ocr_texts = [line[1] for line in result]
-    return ocr_texts
+    if(ocr_texts):
+        return ocr_texts
+    else: return ["Nothing"]
 # def perform_object(image):
 #     processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
 #     model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
@@ -32,14 +34,14 @@ def perform_ocr(image):
 #     outputs = model(**inputs)
 #     result=outputs["labels"]
 #     return result
-def correct_text(ocr_texts):
-    corrected_text = []
-    known_terms = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow','Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
-    for text in ocr_texts:
-        match, score = process.extractOne(text, known_terms)
-        if score > 80:
-            corrected_text.append(match)
-    return corrected_text
+# def correct_text(ocr_texts):
+#     corrected_text = []
+#     known_terms = ["Nothing",'Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow','Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
+#     for text in ocr_texts:
+#         match, score = process.extractOne(text, known_terms)
+#         if score > 80:
+#             corrected_text.append(match)
+#     return corrected_text
 
 def analyze_image_information(image_description, ocr_results):
     prompt = f"""
@@ -75,7 +77,6 @@ def analyze_image_information(image_description, ocr_results):
     data = {
         "model": "llama3-8b-8192",
         "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 100 
     }
 
     chat_completion = client.chat.completions.create(**data)
@@ -157,8 +158,8 @@ if uploaded_file is not None:
 
     # Section 2: OCR and Description
     #st.header("OCR Texts")
-    ocr_texts_pre = perform_ocr(image)
-    ocr_texts = correct_text(ocr_texts_pre)
+    #ocr_texts_pre = perform_ocr(image)
+    ocr_texts = perform_ocr(image)
     # for text in ocr_texts:
     #     st.write(text)
 

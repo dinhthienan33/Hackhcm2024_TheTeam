@@ -11,12 +11,11 @@ torchvision>=0.5
 opencv-python-headless
 scipy
 fuzzywuzzy
-Pillow
 scikit-image
 python-bidi
 PyYAML
 Shapely
 pyclipper
 ninja
-# paddleocr    
+# paddleocr
 # paddlepaddle-gpu
