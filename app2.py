@@ -1,5 +1,5 @@
 import streamlit as st
-from transformers import DetrImageProcessor, DetrForObjectDetection
+# from transformers import DetrImageProcessor, DetrForObjectDetection
 import easyocr
 import numpy as np
 from PIL import Image
@@ -25,13 +25,13 @@ def perform_ocr(image):
     result = ocr_reader.readtext(np.array(image))
     ocr_texts = [line[1] for line in result]
     return ocr_texts
-def perform_object(image):
-    processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
-    model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
-    inputs = processor(images=image, return_tensors="pt")
-    outputs = model(**inputs)
-    result=outputs["labels"]
-    return result
+# def perform_object(image):
+#     processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
+#     model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
+#     inputs = processor(images=image, return_tensors="pt")
+#     outputs = model(**inputs)
+#     result=outputs["labels"]
+#     return result
 # def correct_text(ocr_texts):
 #     corrected_text = []
 #     known_terms = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow','Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
@@ -41,7 +41,7 @@ def perform_object(image):
 #             corrected_text.append(match)
 #     return corrected_text
 
-def analyze_image_information(image_description, ocr_results,objects_names):
+def analyze_image_information(image_description, ocr_results):
     prompt = f"""
     Analyze the following image information and provide insights based on the criteria given below:
 
@@ -118,7 +118,7 @@ with col2:
         # # Perform OCR
         # st.subheader("OCR Texts")
         ocr_texts = perform_ocr(image)
-        object_names = perform_object(image)
+        # object_names = perform_object(image)
         #ocr_texts=correct_text(ocr_texts)
         # for text in ocr_texts:
         #     st.write(text)
@@ -129,6 +129,6 @@ with col3:
     if uploaded_file is not None:
         # Analyze image information
         ocr_results = ' '.join(ocr_texts)
-        object_names =' '.join(object_names)
-        analysis = analyze_image_information(image_description, ocr_results,object_names)
+        # object_names =' '.join(object_names)
+        analysis = analyze_image_information(image_description, ocr_results)
         st.write(analysis)
