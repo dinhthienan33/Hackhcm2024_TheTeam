@@ -1,4 +1,5 @@
 streamlit
+opencv-python
 easyocr
 numpy
 Pillow
@@ -8,7 +9,3 @@ groq
 fuzzywuzzy
 # paddleocr    
 # paddlepaddle-gpu
-opencv-python
-torch 
-torchvision 
-torchaudio --index-url https://download.pytorch.org/whl/cu118
