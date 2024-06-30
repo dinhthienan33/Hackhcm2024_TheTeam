@@ -9,7 +9,7 @@ from groq import Groq
 # from fuzzywuzzy import process
 
 # Initialize the OCR reader
-
+ocr_reader = easyocr.Reader(['vi','en'],gpu=False)
 def get_image_caption(image):
     result=[]
     # Use a pre-trained image captioning model from Salesforce
@@ -20,7 +20,6 @@ def get_image_caption(image):
     return result
 
 def perform_ocr(image):
-    ocr_reader = easyocr.Reader(['vi','en'],gpu=False)
     result = ocr_reader.readtext(np.array(image))
     ocr_texts = [line[1] for line in result]
     return ocr_texts
