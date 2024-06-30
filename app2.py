@@ -1,4 +1,5 @@
 import streamlit as st
+from transformers import DetrImageProcessor, DetrForObjectDetection
 import easyocr
 import numpy as np
 from PIL import Image
@@ -25,8 +26,11 @@ def perform_ocr(image):
     ocr_texts = [line[1] for line in result]
     return ocr_texts
 def perform_object(image):
-    pipe = pipeline("object-detection", model="facebook/detr-resnet-50") 
-    result=pipe(image)[0]['labels']
+    processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
+    model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
+    inputs = processor(images=image, return_tensors="pt")
+    outputs = model(**inputs)
+    result=outputs["labels"]
     return result
 # def correct_text(ocr_texts):
 #     corrected_text = []
