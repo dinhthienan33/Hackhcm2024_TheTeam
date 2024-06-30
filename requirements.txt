@@ -1,4 +1,5 @@
 streamlit
+libgl1-mesa-glx
 opencv-python
 easyocr
 numpy
@@ -9,3 +10,6 @@ groq
 fuzzywuzzy
 # paddleocr    
 # paddlepaddle-gpu
+torch 
+torchvision 
+torchaudio --index-url https://download.pytorch.org/whl/cu118
