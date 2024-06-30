@@ -6,6 +6,7 @@ Pillow
 requests
 transformers
 groq
+timm
 #torch
 #torchvision>=0.5
 scipy
