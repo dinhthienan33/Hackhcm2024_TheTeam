@@ -1,10 +1,22 @@
 streamlit
-opencv-python
 git+https://github.com/JaidedAI/EasyOCR.git
+opencv-python-headless
 numpy
 Pillow
 requests
 transformers
 groq
+torch
+torchvision>=0.5
+opencv-python-headless
+scipy
+numpy
+Pillow
+scikit-image
+python-bidi
+PyYAML
+Shapely
+pyclipper
+ninja
 # paddleocr    
 # paddlepaddle-gpu
