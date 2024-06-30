@@ -56,12 +56,12 @@ def analyze_image_information(image_description, ocr_results):
     Imagine you are a member of the Digital & Technology (D&T) team at HEINEKEN Vietnam. Develop an image analysis tool that can automatically detect the following elements based on Description and OCR_result:
     Just focus on result of OCR that similar to brands
     Criteria:
-    1. Brand Logos: Identify any brand logos mentioned in OCR results.
-    2. Products: Mention any products such as beer kegs and bottles in the description or OCR results that appears in objects, if OCR results does not contain any objects don't write.
-    3. Customers: Describe the number of customers, their activities, and emotions.
-    4. Promotional Materials: Identify any posters, banners, and billboards.
-    5. Setup Context: Determine the scene context (e.g., bar, restaurant, grocery store, or supermarket).
-
+    1.Brand Logos: Identify any brand logos mentioned in OCR results that match the known brands.
+    2.Products: Mention any products such as beer kegs and bottles in the description or OCR results that match the known objects. If OCR results do not contain any objects, do not mention this criterion.
+    3.Customers: Describe the number of customers, their activities, and their emotions if any are present.
+    4.Promotional Materials: Identify any promotional materials such as posters, banners, and billboards.
+    5.Setup Context: Determine the scene context (e.g., bar, restaurant, grocery store, or supermarket).
+    Please give me your best result
     Insights:
     Summarize all of criteria and give context
     """
@@ -84,13 +84,16 @@ def analyze_image_information(image_description, ocr_results):
 
 
 # Streamlit app
-st.set_page_config(layout="wide")
-st.title("Image Analysis App")
 logo_path = "img/logo.png"  # Change this to the path of your logo file or a URL
 logo = Image.open(logo_path)
+st.set_page_config(layout="wide")
+st.title("Image Analysis App")
+
 st.image(logo, width=100)
-st.text("The Team")     
-st.markdown("Hack HCM2024") 
+st.text("The Team")
+st.markdown("<p style='color:blue; text-align:center;'>The Team</p>", unsafe_allow_html=True)     
+st.text("Hack HCM2024") 
+st.markdown("<h1 style='font-size: 30px; text-align:center;'>Hack HCM2024</h1>", unsafe_allow_html=True)
 # Create three columns with custom widths
 col1, col2, col3 = st.columns([1, 2, 2])
 
@@ -109,6 +112,7 @@ with col2:
         # Get image caption
         st.subheader("Image Description")
         image_description = get_image_caption(image)
+        image_description_last=' '.join(image_description)
         st.write(image_description)
 
         # # Perform OCR
@@ -126,5 +130,5 @@ with col3:
         # Analyze image information
         ocr_results = ' '.join(ocr_texts)
         # object_names =' '.join(object_names)
-        analysis = analyze_image_information(image_description, ocr_results)
+        analysis = analyze_image_information(image_description_last, ocr_results)
         st.write(analysis)
