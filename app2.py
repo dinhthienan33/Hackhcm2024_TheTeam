@@ -48,20 +48,16 @@ def analyze_image_information(image_description, ocr_results):
     Image Description:
     {image_description}
 
-    Brands names:
+    OCR_result:
     {ocr_results}
     
-    objects=['Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
-    Objects:
-    ['Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']
-    
+    objects=['Beer carton','Beer crate','Beer bottle','Beer can','Drinker','Promotion Girl','Seller','Buyer','Customer','Ice bucket', 'Ice box', 'Fridge', 'Signage', 'billboard', 'poster', 'standee', 'Tent card', 'display stand', 'tabletop', 'Parasol']    
     brands = ['Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow']
-    Imagine you are a member of the Digital & Technology (D&T) team at HEINEKEN Vietnam. Develop an image analysis tool that can automatically detect the following elements:
+    Imagine you are a member of the Digital & Technology (D&T) team at HEINEKEN Vietnam. Develop an image analysis tool that can automatically detect the following elements based on Description and OCR_result:
     Just focus on result of OCR that similar to brands
-    Just focus on result of OCR that similar to objects
     Criteria:
     1. Brand Logos: Identify any brand logos mentioned in OCR results.
-    2. Products: Mention any products such as beer kegs and bottles in the description or result of Objects
+    2. Products: Mention any products such as beer kegs and bottles in the description or OCR results that appears in objects, if OCR results does not contain any objects don't write.
     3. Customers: Describe the number of customers, their activities, and emotions.
     4. Promotional Materials: Identify any posters, banners, and billboards.
     5. Setup Context: Determine the scene context (e.g., bar, restaurant, grocery store, or supermarket).
