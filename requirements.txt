@@ -1,11 +1,10 @@
 streamlit
 opencv-python
-easyocr
+git+https://github.com/JaidedAI/EasyOCR.git
 numpy
 Pillow
 requests
 transformers
 groq
-fuzzywuzzy
 # paddleocr    
 # paddlepaddle-gpu
