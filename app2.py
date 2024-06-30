@@ -45,7 +45,7 @@ def perform_ocr(image):
 def analyze_image_information(image_description,ocr_results):
     prompt = f"""
     Analyze the following image information and provide insights based on the criteria given below:
-    known_terms = ["Nothing",'Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow']
+    know brands = ["Nothing",'Tiger', 'Pepsi', 'Heineken', 'Larue','Bivina','Edelweiss','Bia Viet','Strongbow']
     Image Description:
     {image_description}
     OCR_result:
